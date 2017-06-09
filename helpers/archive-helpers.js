@@ -52,9 +52,9 @@ exports.isUrlInList = function(url, callback) {
   });
 };
 
-//console.log(exports.isUrlInList('example1.com'));
-
 exports.addUrlToList = function(url, callback) {
+  //easily solved by reading documentation
+  fs.writeFile('test/testdata/sites.txt', url, 'utf8', callback);
 };
 
 exports.isUrlArchived = function(url, callback) {
