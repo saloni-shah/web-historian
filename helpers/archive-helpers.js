@@ -26,8 +26,16 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback) {
-
-  callback("kamie");
+  //read file sites.txt and fetch urls
+  fs.readFile('test/testdata/sites.txt', 'utf8', (err, data) => {
+    if (err) { 
+      throw err;
+    }
+    //split urls by new line
+    var splitData = data.split('\n');
+    //pass array of urls to callback function
+    return callback(splitData);
+  });
 };
 
 exports.isUrlInList = function(url, callback) {
