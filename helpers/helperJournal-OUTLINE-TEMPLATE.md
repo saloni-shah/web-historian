@@ -1,12 +1,11 @@
 ### Step 1: Specification
-input: callback function
-output: an array of urls
+<!-- record your specification here -->
 
 ### Step 2: Justification
-When this function is called it will read the urls from the sites.txt file
+<!-- record your justification here -->
 
 ### Step 3: Explanation
-The callback will be called with the url list from the sites.txt
+<!-- record your explanation here -->
 
 ### Step 4: Visualization
 <!-- record visualization by uploading a photo of your whiteboard to this folder -->
