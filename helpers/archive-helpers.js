@@ -26,6 +26,8 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback) {
+
+  callback("kamie");
 };
 
 exports.isUrlInList = function(url, callback) {
