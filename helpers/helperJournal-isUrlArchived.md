@@ -1,11 +1,15 @@
 ### Step 1: Specification
-<!-- record your specification here -->
+input: url and callback
+output: boolean
+side effects: none
 
 ### Step 2: Justification
-<!-- record your justification here -->
+When we call the function it will check if the url argument is in the archive sites folder
+
 
 ### Step 3: Explanation
-<!-- record your explanation here -->
+Given the url and callback, the function will check to see if the archive sites folder contains a subfolder titled the url name. If so, it will return true. If not, false.
+
 
 ### Step 4: Visualization
 <!-- record visualization by uploading a photo of your whiteboard to this folder -->
