@@ -39,7 +39,20 @@ exports.readListOfUrls = function(callback) {
 };
 
 exports.isUrlInList = function(url, callback) {
+  //call readListOfUrls and get list of urls
+  exports.readListOfUrls(function(urls) {
+      //go through one by one url
+    _.each(urls, function(currentUrl) { 
+      //check if currenturl is matching with targeturl
+      if (currentUrl === url) {
+        return callback(true);
+      }
+    });
+    return callback(false);
+  });
 };
+
+//console.log(exports.isUrlInList('example1.com'));
 
 exports.addUrlToList = function(url, callback) {
 };
