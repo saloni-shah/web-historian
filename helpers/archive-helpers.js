@@ -27,7 +27,7 @@ exports.initialize = function(pathsObj) {
 
 exports.readListOfUrls = function(callback) {
   //read file sites.txt and fetch urls
-  fs.readFile('test/testdata/sites.txt', 'utf8', (err, data) => {
+  fs.readFile(exports.paths.list, 'utf8', (err, data) => {
     if (err) { 
       throw err;
     }
@@ -53,11 +53,24 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
-  //easily solved by reading documentation
-  fs.writeFile('test/testdata/sites.txt', url, 'utf8', callback);
+  //just kidding, writing overwrites it...s
+  // url = url + '\n';
+  // fs.appendFile(exports.paths.list, url, 'utf8', function (err) {
+  //   if (err) { throw err; }
+  //   console.log('The "data to append" was appended to file!');
+  //   return callback(true);
+  // });
+  // return callback(false);
 };
 
+
 exports.isUrlArchived = function(url, callback) {
+  //check to see if there is a url directory
+  if (path.dirname(exports.paths.archivedSites + `/${url}`)) {
+    return callback(true);
+  }
+  return callback(false);
+  
 };
 
 exports.downloadUrls = function(urls) {
