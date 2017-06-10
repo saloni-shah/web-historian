@@ -41,26 +41,28 @@ exports.readListOfUrls = function(callback) {
 exports.isUrlInList = function(url, callback) {
   //call readListOfUrls and get list of urls
   exports.readListOfUrls(function(urls) {
-      //go through one by one url
-    _.each(urls, function(currentUrl) { 
-      //check if currenturl is matching with targeturl
-      if (currentUrl === url) {
-        return callback(true);
-      }
-    });
-    return callback(false);
+    //check list of urls contains currenturl
+    if (_.contains(urls, url)) {
+      //call callback
+      callback(true);
+    } else {
+      //call callback
+      callback(false);
+    }
   });
 };
 
 exports.addUrlToList = function(url, callback) {
-  //just kidding, writing overwrites it...s
-  // url = url + '\n';
-  // fs.appendFile(exports.paths.list, url, 'utf8', function (err) {
-  //   if (err) { throw err; }
-  //   console.log('The "data to append" was appended to file!');
-  //   return callback(true);
-  // });
-  // return callback(false);
+  //if isUrlInList is true
+  if (exports.isUrlInList(url, callback)) {
+    callback();
+  } else {
+    //append url to file and call callback
+    fs.appendFile(exports.paths.list, url.concat('\n'), function (err) {
+      if (err) { throw err; }
+      callback();
+    });
+  }
 };
 
 
