@@ -75,25 +75,21 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
-  //first check individual url isUrlArchived
+  //for each url create an options object
   _.each(urls, function(url) {
-    // if (!exports.isUrlArchived(url)) {
     var options = {
       host: url,
-      port: 80,
       path: '/index.html'
     };
-
+    //send a request to the site
     http.get(options, function(response) {
-      // console.log('Got response: ' + response.statusCode);
-      // console.log(options.host + options.path);
+      //if the site exists, respond with 200 and...
       if (response.statusCode === 200) {
-        // console.log('success');
+        //specify where the file should be saved
         var fileName = exports.paths.archivedSites + '/' + url;
-        fs.open(fileName, 'a+', (err, fd) => {
-          // => null, <fd>
-        });
+        //create a new file here
         var file = fs.createWriteStream(fileName);
+        //write the response body to the file
         response.pipe(file);
       }
     }).on('error', function(e) {
