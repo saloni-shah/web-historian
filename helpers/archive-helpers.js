@@ -60,7 +60,6 @@ exports.addUrlToList = function(url, callback) {
     //append url to file and call callback
     fs.appendFile(exports.paths.list, url.concat('\n'), function (err) {
       if (err) { throw err; }
-      callback();
     });
   }
 };
@@ -68,10 +67,9 @@ exports.addUrlToList = function(url, callback) {
 
 exports.isUrlArchived = function(url, callback) {
   //check to see if there is a url directory
-  if (path.dirname(exports.paths.archivedSites + `/${url}`)) {
-    return callback(true);
-  }
-  return callback(false);
+  fs.exists(exports.paths.archivedSites + '/' + url, (exists) => {
+    (exists) ? callback(true) : callback(false);
+  });
   
 };
 
