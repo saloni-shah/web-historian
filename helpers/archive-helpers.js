@@ -87,9 +87,8 @@ exports.downloadUrls = function(urls) {
       if (response.statusCode === 200) {
         //specify where the file should be saved
         var fileName = exports.paths.archivedSites + '/' + url;
-        //create a new file here
-        var file = fs.createWriteStream(fileName);
         //write the response body to the file
+        var file = fs.createWriteStream(fileName);
         response.pipe(file);
       }
     }).on('error', function(e) {
@@ -97,7 +96,4 @@ exports.downloadUrls = function(urls) {
     });
 
   });
-  //exports.paths.archivedSites.shift();
-  console.log(exports.paths.archivedSites);
-
 };
