@@ -42,11 +42,12 @@ exports.readListOfUrls = function(callback) {
 exports.isUrlInList = function(url, callback) {
   //call readListOfUrls and get list of urls
   exports.readListOfUrls(function(urls) {
-    //check list of urls contains currenturl
+    //check list of urls contains currenturl 
     if (_.contains(urls, url)) {
       //call callback
       callback(true);
     } else {
+
       //call callback
       callback(false);
     }
@@ -86,7 +87,7 @@ exports.downloadUrls = function(urls) {
       //if the site exists, respond with 200 and...
       if (response.statusCode === 200) {
         //specify where the file should be saved
-        var fileName = exports.paths.archivedSites + '/' + url;
+        var fileName = exports.paths.archivedSites + '/' + url + '.html';
         //write the response body to the file
         var file = fs.createWriteStream(fileName);
         response.pipe(file);
