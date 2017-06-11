@@ -35,7 +35,7 @@ exports.readListOfUrls = function(callback) {
     //split urls by new line
     var splitData = data.split('\n');
     //pass array of urls to callback function
-    return callback(splitData);
+    callback(splitData);
   });
 };
 
@@ -87,7 +87,7 @@ exports.downloadUrls = function(urls) {
       //if the site exists, respond with 200 and...
       if (response.statusCode === 200) {
         //specify where the file should be saved
-        var fileName = exports.paths.archivedSites + '/' + url + '.html';
+        var fileName = exports.paths.archivedSites + '/' + url;
         //write the response body to the file
         var file = fs.createWriteStream(fileName);
         response.pipe(file);

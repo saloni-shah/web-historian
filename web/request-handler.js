@@ -1,37 +1,55 @@
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
+var url = require('url');
 var archive = require('../helpers/archive-helpers');
+var helpers = require('./http-helpers');
 // require more modules/folders here!
 
 exports.handleRequest = function (req, res) {
-  //default file of index.html
-  var file;
-  var statusCode;
   if (req.method === 'GET') {
-    req.url = req.url.slice(1);
-    //check status after calling isurlinlist 
-    if (req.url !== '/') {
-      archive.isUrlInList(req.url, function(status) {
+    var urlPath = url.parse(req.url).pathname;
+    // / means index.html
+    if (urlPath === '/') { urlPath = '/index.html'; }
+    helpers.serveAssets(res, urlPath, function(){
+      if(urlPath[0] === '/') {
+        urlPath = urlPath.slice(1);
+      }
+      archive.isUrlInList(urlPath, function(status) {
         if (status) {
-          //go to request url
-          file = archive.paths.archivedSites + '/' + req.url;
-          statusCode = 200;
+          //means loading.html, it's not properly downloaded yet
+          helpers.serveAssets(res, '/loading.html');
         } else {
-          //else index.html
-          file = archive.paths.siteAssets + '/index.html';
-          statusCode = 404;
+          //else not found
+          helpers.send404(res);
         }
-        //readfile data display it
-        fs.readFile(file, function (err, data) {
-          res.writeHead(statusCode, {'Content-Type': 'text/html'});
-          res.write(data);
-          res.end();
-        });
       });
-    }
+    });
   } else {
-  }
-  
-  
+    helpers.collectPostData(req, function(data){
+      var url = data.split('=')[1].replace('http://', '');
+      //check url exists in archieve url list
+      archive.isUrlInList(url, function(status) {
+        if(status){
+          //now check it's archieved or not
+          archive.isUrlArchived(url, function(status) {
+            if (status) {
+              //redirect to page ex. www.fb.com
+              helpers.sendRedirect(res, '/' + url);
+            } else {
+              // Redirect to loading.html
+              helpers.sendRedirect(res, '/loading.html');
+            }
+          });
+        } else {
+          archive.addUrlToList(url, function() {
+            // download it first so it will be available for nexxt time
+            archive.downloadUrls([url]);
+            //and then redirect to loading.html
+            helpers.sendRedirect(res, '/loading.html');
+          });
+        }
+      });
+    });
+  }  
 };
